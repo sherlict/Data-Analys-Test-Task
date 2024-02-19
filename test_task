@@ -26,7 +26,7 @@ df['Quantity_sold'] = df.apply(lambda row: sum([(y - x) if (y is not None and x 
 # Custom output option for pandas DataFrame, changing the output format for floating point numeric values.
 pd.set_option('display.float_format', '{:,.2f}'.format)
 
-df['Count_orders'] = df.apply(lambda row: sum([1 if (y != x) else 0 for x, y in zip(row['Shifted_Stock_History'], row['Stock_History'])]), axis=1)
+df['Count_orders'] = df.apply(lambda row: sum(1 for x, y in zip(row['Stock_History'][:-1], row['Stock_History'][1:]) if x > y) if len(row['Stock_History']) > 0 else 0, axis=1)
 
 df['Net_price'] = df['Price'] - df['Shipping']
 
