@@ -5,8 +5,10 @@ df = pd.read_csv('Test_Task.csv',thousands=' ', decimal=',')
 
 # Replacing all non-numeric characters and converting values to numeric format (floating point data type)
 df['Price'] = df['Price'].replace('[\D]', '', regex=True).astype(float)
+df['Price'] = df['Price'] / 100
 
 df['Shipping'] = df['Shipping'].replace('[\D]', '', regex=True).astype(float)
+df['Shipping'] = df['Shipping'] / 100
 
 df['quantity_sold'] = df['quantity_sold'].replace('[\D]', '', regex=True).astype(float)
 
