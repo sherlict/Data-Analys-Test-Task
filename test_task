@@ -24,6 +24,8 @@ df['Quantity_sold'] = df.apply(lambda row: sum([(y - x) if (y is not None and x 
 # Custom output option for pandas DataFrame, changing the output format for floating point numeric values.
 pd.set_option('display.float_format', '{:,.2f}'.format)
 
+df['Count_orders'] = df.apply(lambda row: sum([1 if (y != x) else 0 for x, y in zip(row['Shifted_Stock_History'], row['Stock_History'])]), axis=1)
+
 df['Net_price'] = df['Price'] - df['Shipping']
 
 df['Sales_amount'] = df['Net_price'] * df['quantity_sold']
@@ -46,8 +48,8 @@ df['Total_rank'] = df['Rank_quantity_sold'] + df['Rank_count_orders'] + df['Rank
 
 selected_columns = ['SKU', 'Total_rank', 'Price', 'Shipping', 'Net_price', 'Quantity', 'Quantity_sold']
 
-#sorted_df = df.sort_values(by='Total_rank', ascending=True)[selected_columns]
+sorted_df = df.sort_values(by='Total_rank', ascending=True)[selected_columns]
 
-sorted_df = df[(df['Quantity'] > 0) & (df['Net_price'] > 0)].sort_values(by='Total_rank', ascending=True)[selected_columns]
+#sorted_df = df[(df['Quantity'] > 0) & (df['Net_price'] > 0)].sort_values(by='Total_rank', ascending=True)[selected_columns]
 
 print(sorted_df.head().to_string(index=False))
